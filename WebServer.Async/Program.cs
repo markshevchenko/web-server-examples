@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 
-namespace WebServer.Sync
+namespace WebServerCallback
 {
     class Program
     {
@@ -12,16 +13,13 @@ namespace WebServer.Sync
             listener.Prefixes.Add("http://localhost:8080/");
             listener.Start();
 
-            Console.WriteLine("Sync HTTP server has started. Press Ctrl+C to stop.");
+            Console.WriteLine("Async HTTP server has started. Press any key to stop.");
 
             try
             {
-                while (true)
-                {
-                    var context = listener.GetContext();
+                listener.BeginGetContext(AsyncProcessRequest, listener);
 
-                    ProcessRequest(context);
-                }
+                Console.ReadKey();
             }
             catch (Exception exception)
             {
@@ -33,8 +31,12 @@ namespace WebServer.Sync
             }
         }
 
-        private static void ProcessRequest(HttpListenerContext context)
+        private static void AsyncProcessRequest(IAsyncResult ar)
         {
+            var listener = (HttpListener)ar.AsyncState;
+            listener.BeginGetContext(AsyncProcessRequest, listener);
+
+            var context = listener.EndGetContext(ar);
             Console.WriteLine("{0} {1}", context.Request.HttpMethod, context.Request.RawUrl);
 
             if (context.Request.HttpMethod == "GET")
@@ -50,10 +52,11 @@ namespace WebServer.Sync
 
         private static void SendIndexHtml(HttpListenerResponse response)
         {
-//            Thread.Sleep(100);
+            Thread.Sleep(100);
             response.StatusCode = 200;
 
-            using (var writer = new StreamWriter(response.OutputStream))
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, leaveOpen: true))
             {
                 writer.WriteLine("<!DOCTYPE html>");
                 writer.WriteLine("<html lang='en' xmlns='http://www.w3.org/1999/xhtml'>");
@@ -65,7 +68,17 @@ namespace WebServer.Sync
                 writer.WriteLine("    <p>Example HTTP server</p>");
                 writer.WriteLine("  </body>");
                 writer.WriteLine("</html>");
+
+                var buffer = stream.ToArray();
+                response.OutputStream.BeginWrite(buffer, 0, buffer.Length, AsyncWrite, response);
             }
+        }
+
+        private static void AsyncWrite(IAsyncResult ar)
+        {
+            var response = (HttpListenerResponse)ar.AsyncState;
+
+            response.OutputStream.Close();
         }
 
         private static void SendFileNotFound(HttpListenerResponse response)

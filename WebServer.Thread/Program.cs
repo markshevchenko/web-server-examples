@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 namespace WebServer.Sync
 {
@@ -12,7 +13,7 @@ namespace WebServer.Sync
             listener.Prefixes.Add("http://localhost:8080/");
             listener.Start();
 
-            Console.WriteLine("Sync HTTP server has started. Press Ctrl+C to stop.");
+            Console.WriteLine("Thread HTTP server has started. Press Ctrl+C to stop.");
 
             try
             {
@@ -20,7 +21,8 @@ namespace WebServer.Sync
                 {
                     var context = listener.GetContext();
 
-                    ProcessRequest(context);
+                    var thread = new Thread(() => ProcessRequest(context));
+                    thread.Start();
                 }
             }
             catch (Exception exception)
@@ -50,7 +52,7 @@ namespace WebServer.Sync
 
         private static void SendIndexHtml(HttpListenerResponse response)
         {
-//            Thread.Sleep(100);
+            Thread.Sleep(100);
             response.StatusCode = 200;
 
             using (var writer = new StreamWriter(response.OutputStream))
