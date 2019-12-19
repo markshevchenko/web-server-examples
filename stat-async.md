@@ -1,8 +1,9 @@
 ### При задержке 10 миллисекунд.
 
-Timeout: 00:00:05
-Min requests: 100
-Max requests: 1600
+Timeout: 00:00:05 <br />
+Min requests: 100 <br />
+Max requests: 1600 <br />
+
 +----------+----------+-------+------------+------------+
 | Requests | Avg time | Delay |  Ok count  | Fail count |
 +----------+----------+-------+------------+------------+
@@ -15,9 +16,10 @@ Max requests: 1600
 |     1135 |     1274 |   881 |       1135 |          0 |
 +----------+----------+-------+------------+------------+
 
-Timeout: 00:00:05
-Min requests: 100
-Max requests: 1600
+Timeout: 00:00:05 <br />
+Min requests: 100 <br />
+Max requests: 1600 <br />
+
 +----------+----------+-------+------------+------------+
 | Requests | Avg time | Delay |  Ok count  | Fail count |
 +----------+----------+-------+------------+------------+
@@ -32,9 +34,10 @@ Max requests: 1600
 
 ### При задержке 100 миллисекунд.
 
-Timeout: 00:00:05
-Min requests: 100
-Max requests: 1600
+Timeout: 00:00:05 <br />
+Min requests: 100 <br />
+Max requests: 1600 <br />
+
 +----------+----------+-------+------------+------------+
 | Requests | Avg time | Delay |  Ok count  | Fail count |
 +----------+----------+-------+------------+------------+

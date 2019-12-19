@@ -1,8 +1,9 @@
 ### При задержке 100 миллисекунд.
 
-Timeout: 00:00:05
-Min requests: 100
-Max requests: 1600
+Timeout: 00:00:05 <br />
+Min requests: 100 <br />
+Max requests: 1600 <br />
+
 +----------+----------+-------+------------+------------+
 | Requests | Avg time | Delay |  Ok count  | Fail count |
 +----------+----------+-------+------------+------------+
