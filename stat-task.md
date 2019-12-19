@@ -2,7 +2,7 @@
 
 Timeout: 00:00:05 <br />
 Min requests: 100 <br />
-Max requests: 1600 <br />
+Max requests: 1135 <br />
 
 | Requests | Avg time | Delay |  Ok count  | Fail count |
 |----------|----------|-------|------------|------------|

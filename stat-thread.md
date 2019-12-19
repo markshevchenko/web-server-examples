@@ -2,21 +2,7 @@
 
 Timeout: 00:00:05 <br />
 Min requests: 100 <br />
-Max requests: 1600 <br />
-
-| Requests | Avg time | Delay |  Ok count  | Fail count |
-|----------|----------|-------|------------|------------|
-|      100 |      849 | 10000 |        100 |          0 |
-|      150 |     1018 |  6666 |        150 |          0 |
-|      225 |     1417 |  4444 |        225 |          0 |
-|      337 |     2097 |  2967 |        337 |          0 |
-|      505 |     3969 |  1980 |        379 |        126 |
-|      757 |     6874 |  1321 |        394 |        363 |
-|     1135 |    12717 |   881 |        353 |        782 |
-
-Timeout: 00:00:05 <br />
-Min requests: 100 <br />
-Max requests: 1600 <br />
+Max requests: 1135 <br />
 
 | Requests | Avg time | Delay |  Ok count  | Fail count |
 |----------|----------|-------|------------|------------|
@@ -32,7 +18,7 @@ Max requests: 1600 <br />
 
 Timeout: 00:00:05 <br />
 Min requests: 100 <br />
-Max requests: 1600 <br />
+Max requests: 1135 <br />
 
 | Requests | Avg time | Delay |  Ok count  | Fail count |
 |----------|----------|-------|------------|------------|
