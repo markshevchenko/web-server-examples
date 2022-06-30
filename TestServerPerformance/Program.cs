@@ -31,7 +31,7 @@ namespace TestServerPerformance
 
             if (uris.Count == 0)
             {
-                await Console.Out.WriteLineAsync("Usage: tsp URI1 (URI2 ... URIn) [-t:timeout] [-min:request/second] [-max:request/second");
+                await Console.Out.WriteLineAsync("Usage: tsp URI1 (URI2 ... URIn) [-t:timeout] [-min:request/second] [-max:request/second]");
                 return;
             }
 
@@ -75,22 +75,20 @@ namespace TestServerPerformance
                     var uri = uris[random.Next(uris.Count)];
                     var delayTimespan = TimeSpan.FromMilliseconds(random.Next(0, 2 * delay) / 1000.0);
 
-                    var task = MakeRquestsAsync(client, uri, delayTimespan);
+                    var task = MakeRequestsAsync(client, uri, delayTimespan);
                     tasks.Add(task);
                 }
 
                 var completedTasks = await Task.WhenAll(tasks);
                 var avgTime = (long)completedTasks.Select(x => x.time).Average();
-                var okCount = completedTasks.Where(x => x.state >= HttpStatusCode.OK && x.state < HttpStatusCode.BadRequest)
-                                            .Count();
-                var failCount = completedTasks.Where(x => x.state >= HttpStatusCode.BadRequest)
-                                              .Count();
+                var okCount = completedTasks.Count(x => x.state >= HttpStatusCode.OK && x.state < HttpStatusCode.BadRequest);
+                var failCount = completedTasks.Count(x => x.state >= HttpStatusCode.BadRequest);
 
                 return (avgTime, delay, okCount, failCount);
             }
         }
 
-        private static async Task<(long time, HttpStatusCode state)> MakeRquestsAsync(HttpClient client, string uri, TimeSpan delay)
+        private static async Task<(long time, HttpStatusCode state)> MakeRequestsAsync(HttpClient client, string uri, TimeSpan delay)
         {
 //            await Task.Delay(delay);
             
@@ -103,7 +101,7 @@ namespace TestServerPerformance
                 stopwatch.Stop();
                 return (stopwatch.ElapsedMilliseconds, response.StatusCode);
             }
-            catch (Exception exception)
+            catch
             {
                 stopwatch.Stop();
                 return (stopwatch.ElapsedMilliseconds, HttpStatusCode.BadRequest);
