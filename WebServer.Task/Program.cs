@@ -34,9 +34,9 @@ namespace WebServerCallback
         {
             await Task.Yield();
             
-            var context = await listener.GetContextAsync();
-
             GetContextAsync(listener);
+
+            var context = await listener.GetContextAsync();
 
             await Console.Out.WriteLineAsync($"{context.Request.HttpMethod} {context.Request.RawUrl}");
 
